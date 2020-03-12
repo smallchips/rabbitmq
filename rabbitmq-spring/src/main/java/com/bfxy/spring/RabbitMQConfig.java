@@ -144,13 +144,12 @@ public class RabbitMQConfig {
     	*/
     	
     	/**
-    	 * 2 适配器方式: 我们的队列名称 和 方法名称 也可以进行一一的匹配
-		 * 查询底层代码MessageListenerAdapter中包含queueOrTagToMethodName
-    	 * 
+    	 * 2 适配器方式: 我们的队列名称 和 路由的方法名称 也可以进行一一的匹配
+    	 * 查询底层代码MessageListenerAdapter中包含queueOrTagToMethodName
     	MessageListenerAdapter adapter = new MessageListenerAdapter(new MessageDelegate());
     	adapter.setMessageConverter(new TextMessageConverter());
-		 // key为队列的名称，value为方法的名称
     	Map<String, String> queueOrTagToMethodName = new HashMap<>();
+    	// key为队列的名称，value为方法的名称
     	queueOrTagToMethodName.put("queue001", "method1");
     	queueOrTagToMethodName.put("queue002", "method2");
     	adapter.setQueueOrTagToMethodName(queueOrTagToMethodName);
@@ -193,7 +192,9 @@ public class RabbitMQConfig {
         DefaultJackson2JavaTypeMapper javaTypeMapper = new DefaultJackson2JavaTypeMapper();
         
         Map<String, Class<?>> idClassMapping = new HashMap<String, Class<?>>();
+		 // 如果消息标签是order就转为com.bfxy.spring.entity.Order.class
 		idClassMapping.put("order", com.bfxy.spring.entity.Order.class);
+		 // 如果消息标签是packaged就转为com.bfxy.spring.entity.Packaged.class
 		idClassMapping.put("packaged", com.bfxy.spring.entity.Packaged.class);
 		
 		javaTypeMapper.setIdClassMapping(idClassMapping);

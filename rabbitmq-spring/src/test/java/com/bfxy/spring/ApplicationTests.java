@@ -1,30 +1,21 @@
 package com.bfxy.spring;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-
+import com.bfxy.spring.entity.Order;
+import com.bfxy.spring.entity.Packaged;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.bfxy.spring.entity.Order;
-import com.bfxy.spring.entity.Packaged;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -152,6 +143,7 @@ public class ApplicationTests {
 		MessageProperties messageProperties = new MessageProperties();
 		//这里注意一定要修改contentType为 application/json
 		messageProperties.setContentType("application/json");
+		//指定的__TypeId__属性值必须是消费端的Order的全类名，如果不匹配则会报错，同时__TypeId__是固定的
 		messageProperties.getHeaders().put("__TypeId__", "com.bfxy.spring.entity.Order");
 		Message message = new Message(json.getBytes(), messageProperties);
 		
