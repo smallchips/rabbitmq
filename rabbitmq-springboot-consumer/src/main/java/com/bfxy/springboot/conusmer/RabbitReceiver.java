@@ -1,24 +1,21 @@
 package com.bfxy.springboot.conusmer;
 
-import java.util.Map;
-
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import com.rabbitmq.client.Channel;
+import java.util.Map;
 
 @Component
 public class RabbitReceiver {
 
-	
+	// durable表示持久化
+	// ignoreDeclarationExceptions声明队列会忽略错误不声明队列，这个消费者仍然是可用的
+	// key表示路由的key
 	@RabbitListener(bindings = @QueueBinding(
 			value = @Queue(value = "queue-1", 
 			durable="true"),
@@ -33,8 +30,9 @@ public class RabbitReceiver {
 	public void onMessage(Message message, Channel channel) throws Exception {
 		System.err.println("--------------------------------------");
 		System.err.println("消费端Payload: " + message.getPayload());
+		// 消息中很多变量忘记了，都可以用AmqpHeaders
 		Long deliveryTag = (Long)message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
-		//手工ACK
+		//手工ACK，需要设置为false才是手工确认
 		channel.basicAck(deliveryTag, false);
 	}
 	
