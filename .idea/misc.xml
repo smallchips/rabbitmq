@@ -4,6 +4,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/rabbitmq-spring/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-springboot-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-springcloudstream-producer/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-springcloudstream-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-api/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-springboot-producer/pom.xml" />
+        <option value="$PROJECT_DIR$/../rabbitmq-springboot-producer/pom.xml" />
       </list>
     </option>
   </component>
