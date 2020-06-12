@@ -114,9 +114,12 @@ public class RabbitMQConfig {
     	container.setQueues(queue001(), queue002(), queue003(), queue_image(), queue_pdf());
     	container.setConcurrentConsumers(1);
     	container.setMaxConcurrentConsumers(5);
+		// 是否重回队列
     	container.setDefaultRequeueRejected(false);
     	container.setAcknowledgeMode(AcknowledgeMode.AUTO);
+		//设置监听外露
     	container.setExposeListenerChannel(true);
+		//消费端的标签策略
     	container.setConsumerTagStrategy(new ConsumerTagStrategy() {
 			@Override
 			public String createConsumerTag(String queue) {
